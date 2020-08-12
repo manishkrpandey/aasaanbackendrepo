@@ -1,0 +1,9 @@
+npm install
+npm init
+npm install express
+npm install mysql
+npm install url
+npm install events
+npm install fs
+npm install http
+npm install body-parser
