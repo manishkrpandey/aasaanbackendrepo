@@ -20,42 +20,42 @@ const server = app.listen(httpPort, host, function () {
   console.log('Web server running at http://%s:%s', host, httpPort );
 });
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 
-app.all('*', function (req, res, next) {
-  console.log('verifying....');
-  next();
-});
+// app.all('*', function (req, res, next) {
+//   console.log('verifying....');
+//   next();
+// });
 
-app.post('*', function(req, res, next){
-  common.decryptRequest(req)
-  .then(
-    function(success){
-      next();
-    },
-    function(err){
-      common.sendResponse(res,{"status":"error","message":"Something went wrong"});
-    }
-    );
-});
+// app.post('*', function(req, res, next){
+//   common.decryptRequest(req)
+//   .then(
+//     function(success){
+//       next();
+//     },
+//     function(err){
+//       common.sendResponse(res,{"status":"error","message":"Something went wrong"});
+//     }
+//     );
+// });
 
-app.get('*', function(req, res, next){
-  common.decryptGetRequest(req)
-  .then(
-    function(success){
-      next();
-    },
-    function(err){
-      common.sendResponse(res,{"status":"error","message":"Something went wrong"});
-    }
-    );
-});
-app.use(symbols.API_EMPLOYEE,employeeController);
-app.use(symbols.API_GENERAL,generalController);
-app.use(symbols.API_ADMIN,adminController);
-app.use(symbols.API_RESTAURANT,restaurantController);
-app.use(symbols.API_CUSTOMER,customerController);
-app.get(symbols.GET_API_ALL, function (req, res) {
-  common.send(res,symbols.JSON_COMMANDS);
-});
+// app.get('*', function(req, res, next){
+//   common.decryptGetRequest(req)
+//   .then(
+//     function(success){
+//       next();
+//     },
+//     function(err){
+//       common.sendResponse(res,{"status":"error","message":"Something went wrong"});
+//     }
+//     );
+// });
+// app.use(symbols.API_EMPLOYEE,employeeController);
+// app.use(symbols.API_GENERAL,generalController);
+// app.use(symbols.API_ADMIN,adminController);
+// app.use(symbols.API_RESTAURANT,restaurantController);
+// app.use(symbols.API_CUSTOMER,customerController);
+// app.get(symbols.GET_API_ALL, function (req, res) {
+//   common.send(res,symbols.JSON_COMMANDS);
+// });
