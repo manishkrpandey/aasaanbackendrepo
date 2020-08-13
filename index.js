@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser'); 
+const cors = require('cors');
 
 const common = require('./lib/common');
 const symbols = require('./config/symbols');
@@ -10,6 +11,7 @@ const restaurantController = require('./controllers/restaurant_controller');
 const customerController = require('./controllers/customer_controller');
 
 const app = express();
+app.use(cors())
 const host = '0.0.0.0';
 const httpPort = 9000;
 
