@@ -1,4 +1,5 @@
 const express = require('express');
+const SendOtp = require('sendotp');
 
 const adminModel = require('../models/admin_model');
 const restaurantModel = require('../models/restaurant_model');
@@ -6,7 +7,7 @@ const customerModel = require('../models/customer_model');
 const symbols = require('../config/symbols');
 const common = require('../lib/common');
 const validation = require('../models/validation');
-// const msg91 = new SendOtp('339040AXFkeLO0n5f383aadP1');
+const msg91 = new SendOtp('339040AXFkeLO0n5f383aadP1');
 
 const router = express.Router();
 
@@ -36,10 +37,10 @@ router.post(symbols.POST_REGISTER_EMPLOYEE, function (req, res){
         case symbols.COMMAND_INSERT:
             adminModel.employeeRegister(function(insertId){
                 if(insertId > 0){
-                //   msg91.send('9711189363','aasaan', "New Employee added successfully", function(err, response){
-                //     console.log(err);
-                //     console.log(response);
-                // });
+                  msg91.send('9711189363','aasaan', "New Employee added successfully", function(err, response){
+                    console.log(err);
+                    console.log(response);
+                });
                     let data = {};
                     data["id"] = insertId;
                     common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, '', data);
@@ -82,15 +83,15 @@ router.post(symbols.POST_REGISTER_EMPLOYEE, function (req, res){
     }
 });
 
-// router.post(symbols.POST_GET_OTP, function (req, res){
-//     msg91.send('9711189363','aasaan', "1234", function(err, response){
-//        if(err){
-//         common.sendResponse(res, 'error in get otp','get otp failed');
-//         return;
-//        }
-//        common.sendResponse(res, 'OTP sent successfully','OTP success');
-//     });
-// });
+router.post(symbols.POST_GET_OTP, function (req, res){
+    msg91.send('9711189363','aasaan', "1234", function(err, response){
+       if(err){
+        common.sendResponse(res, 'error in get otp','get otp failed');
+        return;
+       }
+       common.sendResponse(res, 'OTP sent successfully','OTP success');
+    });
+});
 
 router.post(symbols.COMMAND_ACTIONS, function (req, res){
 
