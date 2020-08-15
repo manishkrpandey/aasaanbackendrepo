@@ -83,7 +83,7 @@ router.post(symbols.POST_REGISTER_EMPLOYEE, function (req, res){
     }
 });
 
-router.post(symbols.POST_GET_OTP, function (req, res){
+router.get(symbols.POST_GET_OTP, function (req, res){
     msg91.send('9711189363','aasaan', "1234", function(err, response){
        if(err){
         common.sendResponse(res, 'error in get otp','get otp failed');
