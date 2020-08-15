@@ -55,10 +55,11 @@ router.get(symbols.COMMAND_ACTIONS, function (req, res){
 router.get(symbols.POST_GET_OTP, function (req, res){
     msg91.send('9711189363', "New Employee added successfully", function(err, response){
        if(err){
-        common.sendResponse(res, 'error in get otp','get otp failed');
-        return;
+        common.sendResponse(res,err,'get otp failed');
+       }else{
+        common.sendResponse(res, response,'OTP success');
        }
-       common.sendResponse(res, 'OTP sent successfully','OTP success');
+       
     });
 });
 
