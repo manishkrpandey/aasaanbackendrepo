@@ -1,13 +1,11 @@
 const express = require('express');
-const SendOtp = require('sendotp');
-
+const msg91 = require("msg91")("339040AXFkeLO0n5f383aadP1", 'aasaan', 4 );
 const generalModel = require('../models/general_model');
 const validation = require('../models/validation');
 const restaurantModel = require('../models/restaurant_model');
 const symbols = require('../config/symbols');
 const common = require('../lib/common');
 const router = express.Router();
-const msg91 = new SendOtp('339040AXFkeLO0n5f383aadP1');
 
 
 router.get(symbols.COMMAND_ACTIONS, function (req, res){
@@ -55,7 +53,7 @@ router.get(symbols.COMMAND_ACTIONS, function (req, res){
 });
 
 router.get(symbols.POST_GET_OTP, function (req, res){
-    msg91.send('9711189363','aasaan', "1234", function(err, response){
+    msg91.send('9711189363', "New Employee added successfully", function(err, response){
        if(err){
         common.sendResponse(res, 'error in get otp','get otp failed');
         return;
