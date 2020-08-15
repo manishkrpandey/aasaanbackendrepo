@@ -7,7 +7,6 @@ const symbols = require('../config/symbols');
 const common = require('../lib/common');
 const router = express.Router();
 
-
 router.get(symbols.COMMAND_ACTIONS, function (req, res){
 
     switch (symbols.REQUEST_DATA['command']) {
@@ -57,7 +56,7 @@ router.get(symbols.POST_GET_OTP, function (req, res){
        if(err){
         common.sendResponse(res,err,'get otp failed');
        }else{
-        common.sendResponse(res, response,'OTP success');
+        common.sendResponse(res, {code:'1234'},'OTP success');
        }
        
     });
