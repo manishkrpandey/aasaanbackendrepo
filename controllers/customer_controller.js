@@ -17,34 +17,48 @@ router.post(symbols.POST_REGISTER, function (req, res){
             data['id'] = result[0].id;
             customerModel.customerUpdate(data,function(status){
                 if(status){
-                    common.generateOtp(function(otp){
-                        customerModel.saveOtp(otp,function(status){
-                            if(status){
-                                common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp');    
-                            }else{
-                                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
-                            }
-                        });
+                    common.generateOtp(function(success, otp){
+                        if(success)
+                        {
+                            customerModel.saveOtp(otp,function(status){
+                                if(status){
+                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp',{"otp":otp});
+                                }else{
+                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');
+                                }
+                            });
+                        }
+                        else
+                        {
+                            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registratin failed, ' + otp);
+                        }
                     });
                 }else{
-                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registratin failed');                
+                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registratin failed');
                 }
             });
 
         }else{
             customerModel.registerCustomer(function(status){
                 if(status){
-                    common.generateOtp(function(otp){
-                        customerModel.saveOtp(otp,function(status){
-                            if(status){
-                                common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp');    
-                            }else{
-                                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
-                            }
-                        });
+                    common.generateOtp(function(success, otp){
+                        if(success)
+                        {
+                            customerModel.saveOtp(otp,function(status){
+                                if(status){
+                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp',{"otp":otp});    
+                                }else{
+                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
+                                }
+                            });
+                        }
+                        else
+                        {
+                            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registratin failed, ' + otp);
+                        }
                     });
                 }else{
-                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registratin failed');                
+                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registratin failed');
                 }
             });
         }
