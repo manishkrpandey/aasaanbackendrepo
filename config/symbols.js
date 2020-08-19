@@ -51,7 +51,6 @@ module.exports = {
 
     POST_IS_REGISTERED:"/isregistered",
     POST_VERIFY_OTP:"/verifyotp",
-    POST_GET_OTP:"/getotp",
 
     COMMAND_ACTIONS: "/actions",
 

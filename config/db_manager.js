@@ -4,9 +4,9 @@ const symbols = require('./symbols');
 
 const dbconnection = mysql.createConnection({
     host: "localhost",
-    user: "bandagv7_maneesh",
-    database: 'bandagv7_online_food',
-    password: "8*:#]22WgkyE",
+    user: "root",
+    database: 'online_food',
+    password: "",
     supportBigNumbers: true,
     bigNumberStrings: true
 });

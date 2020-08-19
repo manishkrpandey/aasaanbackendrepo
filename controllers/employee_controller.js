@@ -11,14 +11,22 @@ router.post(symbols.POST_IS_REGISTERED, function (req, res){
 
     validation.isRegisteredEmplyee(function(status){
         if(status){
-            common.generateOtp(function(otp){
-                employeeModel.saveOtp(otp,function(status){
-                    if(status){
-                        common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp');    
-                    }else{
-                        common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
-                    }
-                });
+            common.generateOtp(function(success, otp){
+                if(success)
+                {
+                    employeeModel.saveOtp(otp,function(status){
+                        if(status){
+                            common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp',{"otp":otp});    
+                        }else{
+                            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
+                        }
+                    });
+
+                }
+                else
+                {
+                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Not resgistered,' + otp);   
+                }
             });
         }else{
             common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Not resgistered');    
