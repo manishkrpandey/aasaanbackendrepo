@@ -44,6 +44,10 @@ module.exports = {
     POST_UPDATE: "/update",
     POST_DELETE: "/delete",
 
+    /*SAMPLE DATA*/
+    GET_RESTAURENT_DATA:'/getrestaurentdata',
+    GET_MENU_DATA:'/getrestaurentmenudata',
+
     GET_RETRIEVE: "/retrieve",
     
     POST_REGISTER_EMPLOYEE:"/registeremployee",
