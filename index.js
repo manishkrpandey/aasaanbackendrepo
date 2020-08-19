@@ -61,3 +61,5 @@ app.use(symbols.API_CUSTOMER,customerController);
 app.get(symbols.GET_API_ALL, function (req, res) {
   common.send(res,symbols.JSON_COMMANDS);
 });
+
+/*master copy*/
