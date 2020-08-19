@@ -71,7 +71,7 @@ router.post(symbols.POST_DELETE, function (req, res){
 
 });
 
-router.post(symbols.GET_RESTAURENT_DATA, function (req, res){
+router.get(symbols.GET_RESTAURENT_DATA, function (req, res){
     let data =  {
         restaurantName:'Maharaja Hotel',
         status:'open',
@@ -92,7 +92,7 @@ router.post(symbols.GET_RESTAURENT_DATA, function (req, res){
     common.sendResponse(data, symbols.CONSTANT_RESPONSE_SUCCESS, 'fetched');
 });
 
-router.post(symbols.GET_MENU_DATA, function (req, res){
+router.get(symbols.GET_MENU_DATA, function (req, res){
   let data =  {
         restarentName:'',
         category:[
