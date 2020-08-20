@@ -5,10 +5,11 @@ const restaurantModel = require('../models/restaurant_model');
 const validation = require('../models/validation');
 const symbols = require('../config/symbols');
 const common = require('../lib/common');
+const log = require('simple-node-logger').createSimpleLogger('project.log');
 const router = express.Router();
 
 router.post(symbols.POST_IS_REGISTERED, function (req, res){
-
+log.isInfo(req);
     validation.isRegisteredEmplyee(function(status){
         if(status){
             common.generateOtp(function(success, otp){
