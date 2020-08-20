@@ -2,14 +2,14 @@ const mysql = require('mysql');
 const symbols = require('./symbols');
 
 
-const dbconnection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    database: 'online_food',
-    password: "",
-    supportBigNumbers: true,
-    bigNumberStrings: true
-});
+// const dbconnection = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     database: 'online_food',
+//     password: "",
+//     supportBigNumbers: true,
+//     bigNumberStrings: true
+// });
 
 /*
 const dbconnection = mysql.createConnection({
@@ -31,6 +31,14 @@ const dbconnection = mysql.createConnection({
     bigNumberStrings: true
 });
 */
+const dbconnection = mysql.createConnection({
+    host: "localhost",
+    user: "bandagv7_maneesh",
+    database: 'bandagv7_online_food',
+    password: "8*:#]22WgkyE",
+    supportBigNumbers: true,
+    bigNumberStrings: true
+});
 
 dbconnection.connect(function(err) {
     if (err) {
