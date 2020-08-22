@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post(symbols.POST_IS_REGISTERED, function (req, res){
 log.isInfo(req);
-    validation.isRegisteredEmplyee(function(status){
+    validation.isRegisteredEmployee(function(status){
         if(status){
             common.generateOtp(function(success, otp){
                 if(success)
