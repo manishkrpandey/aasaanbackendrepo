@@ -17,7 +17,7 @@ log.isInfo(req);
                 {
                     employeeModel.saveOtp(otp,function(status){
                         if(status){
-                            common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp',{"otp":otp});    
+                            common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp',{"otp":'1234'});    
                         }else{
                             common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
                         }
