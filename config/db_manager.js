@@ -111,7 +111,7 @@ const TableKeys = {
     [symbols.TABLE_RESTAURANT_TYPES]:['title'],
     [symbols.TABLE_RESTAURANT_MEAL_TYPES]:['title'],
     [symbols.TABLE_RESTAURANTS]:['rest_code','contact_person','mobile_number','alternate_mobile_number','email_id','restaurant_name','opening_time','closing_time','delivery_end_time','is_delivery_boy_required','new_password', 'password','restaurant_pictures','is_active','is_deleted','is_agent_verified','is_admin_verified','restaurant_type_id','restaurant_meal_type_id','address','country_id','state_id','city_id','pin','land_mark',
-    'latitude','longitude','metadata','remember_token','agent_id','radius_covered_in_km','otp','resturent_account_img_url','restaurent_document_url','account_number','account_ifsc_code','document_number'],
+    'latitude','longitude','metadata','document_number','account_ifsc_code','account_number','restaurent_document_url','resturent_account_img_url','remember_token','agent_id','radius_covered_in_km','otp','resturent_account_img_url','restaurent_document_url','account_number','account_ifsc_code','document_number'],
     [symbols.TABLE_RESTAURANT_PINS]:['restaurant_id','pins_covered'],    
     [symbols.TABLE_RESTAURANT_MENU]:['restaurant_id','menu_items','menu_tags'],
     [symbols.TABLE_AVAILABILITY]:['employee_id','is_available'],

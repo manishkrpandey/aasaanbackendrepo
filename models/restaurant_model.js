@@ -5,7 +5,7 @@ const common = require('../lib/common');
 module.exports.restaurantCreate = function(callback) {
 
     //??? generate below
-    var rest_code = "xxxx1235";
+    var rest_code = "AASAANEATS"+ symbols.REQUEST_DATA['mobile_number'];
     symbols.REQUEST_DATA['rest_code'] = rest_code;
     dbManager.insertData(symbols.TABLE_RESTAURANTS)
         .then( insertId => {
