@@ -139,6 +139,22 @@ module.exports.restaurantRetrieve = function(callback,accessFlag = null) {
         });
 }
 
+module.exports.restaurantRetrieveAll = function(callback,accessFlag = null) {
+
+    var data = symbols.REQUEST_DATA;
+    var sql = "SELECT * FROM "+symbols.TABLE_RESTAURANTS;//write accroding to login
+    var where = " where 1 AND is_deleted = false";
+    sql += where;
+    dbManager.getData(sql)
+        .then( result => {
+            callback(result);
+        })
+        .catch(err=>{
+            callback(false);
+            //??? log error
+        });
+}
+
 
 module.exports.restaurantUpdate = function(callback) 
 {
