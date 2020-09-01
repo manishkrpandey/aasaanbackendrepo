@@ -206,8 +206,10 @@ module.exports.employeeAddressDelete = function(callback) {
         });
 }
 
-module.exports.availabilityUpdate = function(callback) {
-    data = symbols.REQUEST_DATA;
+module.exports.availabilityUpdate = function(data, callback) {
+    if(data == null){
+        data = symbols.REQUEST_DATA;
+    }
     dbManager.updateData(symbols.TABLE_AVAILABILITY, data)
         .then( success => {
             callback(true);

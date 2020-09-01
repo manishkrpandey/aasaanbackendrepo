@@ -1,10 +1,18 @@
-/*[12:02:46 AM][119 ms]*/ INSERT INTO `online_food`.`employee_job_types` (`title`) VALUES ('Full Time'); 
-/*[12:02:51 AM][106 ms]*/ INSERT INTO `online_food`.`employee_job_types` (`title`) VALUES ('Part Time'); 
+INSERT INTO `online_food`.`employee_job_types` (`title`) VALUES ('Full Time'); 
+INSERT INTO `online_food`.`employee_job_types` (`title`) VALUES ('Part Time'); 
 
-/*[12:28:44 AM][57 ms]*/ INSERT INTO `online_food`.`employee_types` (`title`) VALUES ('Agent'); 
-/*[12:28:51 AM][58 ms]*/ INSERT INTO `online_food`.`employee_types` (`title`) VALUES ('Delivery Boy');
+INSERT INTO `online_food`.`employee_types` (`title`) VALUES ('Agent'); 
+INSERT INTO `online_food`.`employee_types` (`title`) VALUES ('Delivery Boy');
 
-/*[11:38:40 PM][47 ms]*/ INSERT INTO `online_food`.`employee_slots` (`title`, `start_time`, `end_time`) VALUES ('Morning', '08:00', '14:00'); 
-/*[11:39:01 PM][60 ms]*/ INSERT INTO `online_food`.`employee_slots` (`title`, `start_time`, `end_time`) VALUES ('Afternoon', '12:00', '19:00'); 
-/*[11:39:13 PM][62 ms]*/ INSERT INTO `online_food`.`employee_slots` (`title`, `start_time`, `end_time`) VALUES ('Evening', '18:00', '23:00'); 
+INSERT INTO `online_food`.`employee_slots` (`title`, `start_time`, `end_time`) VALUES ('Morning', '08:00', '14:00'); 
+INSERT INTO `online_food`.`employee_slots` (`title`, `start_time`, `end_time`) VALUES ('Afternoon', '12:00', '19:00'); 
+INSERT INTO `online_food`.`employee_slots` (`title`, `start_time`, `end_time`) VALUES ('Evening', '18:00', '23:00'); 
+
+
+INSERT INTO `online_food`.`order_status` (`title`) VALUES ('ORDER_STATUS_PLACED'); 
+INSERT INTO `online_food`.`order_status` (`title`) VALUES ('ORDER_STATUS_REJECTED'); 
+INSERT INTO `online_food`.`order_status` (`title`) VALUES ('ORDER_STATUS_CONFIRMED'); 
+INSERT INTO `online_food`.`order_status` (`title`) VALUES ('ORDER_STATUS_DELIVERY_BOY_ASSIGNED'); 
+INSERT INTO `online_food`.`order_status` (`title`) VALUES ('ORDER_STATUS_PICKED'); 
+INSERT INTO `online_food`.`order_status` (`title`) VALUES ('ORDER_STATUS_DELIVERED'); 
 

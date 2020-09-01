@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post(symbols.POST_IS_REGISTERED, function (req, res){
 log.isInfo(req);
-    validation.isRegisteredEmplyee(function(status){
+    validation.isRegisteredEmployee(function(status){
         if(status){
             common.generateOtp(function(success, otp){
                 if(success)
@@ -174,7 +174,7 @@ router.post(symbols.COMMAND_ACTIONS, function (req, res){
                 },symbols.FLAG_AGENT);
             break;
         case symbols.COMMAND_AVAILABILITY_UPDATE:
-            employeeModel.availabilityUpdate(function(status){
+            employeeModel.availabilityUpdate(null, function(status){
                 if(status){
                     common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Availability update successfully');    
                 }else{

@@ -2,14 +2,14 @@ const mysql = require('mysql');
 const symbols = require('./symbols');
 
 
-// const dbconnection = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     database: 'online_food',
-//     password: "",
-//     supportBigNumbers: true,
-//     bigNumberStrings: true
-// });
+const dbconnection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    database: 'online_food',
+    password: "",
+    supportBigNumbers: true,
+    bigNumberStrings: true
+});
 
 /*
 const dbconnection = mysql.createConnection({
@@ -31,14 +31,6 @@ const dbconnection = mysql.createConnection({
     bigNumberStrings: true
 });
 */
-const dbconnection = mysql.createConnection({
-    host: "localhost",
-    user: "bandagv7_maneesh",
-    database: 'bandagv7_online_food',
-    password: "8*:#]22WgkyE",
-    supportBigNumbers: true,
-    bigNumberStrings: true
-});
 
 dbconnection.connect(function(err) {
     if (err) {
@@ -55,7 +47,7 @@ dbconnection.connect(function(err) {
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_EMPLOYEE_REGISTER  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, mobile_number VARCHAR (20) NOT NULL UNIQUE, employee_type_id BIGINT(20) UNSIGNED NOT NULL, employee_name VARCHAR (255) NOT NULL, email_id VARCHAR (255) NOT NULL, is_signed_up BOOLEAN DEFAULT FALSE,metadata VARCHAR (255) DEFAULT NULL, otp varchar(10) default 0, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,FOREIGN KEY (employee_type_id)  REFERENCES  " + symbols.TABLE_EMPLOYEE_TYPES + " (id), PRIMARY KEY (id) );",
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_EMPLOYEES  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, country_code VARCHAR (10) DEFAULT 91, mobile_number VARCHAR (20) NOT NULL UNIQUE, alternate_mobile_number VARCHAR (20) DEFAULT NULL, email_id VARCHAR (255) DEFAULT NULL, first_name VARCHAR (255) DEFAULT NULL, middle_name VARCHAR (255) DEFAULT NULL, last_name VARCHAR (255) DEFAULT NULL, father_name VARCHAR (255) DEFAULT NULL, password VARCHAR (255) NOT NULL, profile_picture VARCHAR (255) DEFAULT NULL, is_active BOOLEAN DEFAULT TRUE, is_deleted BOOLEAN DEFAULT FALSE, is_profile_completed BOOLEAN DEFAULT FALSE, employee_type_id BIGINT UNSIGNED NOT NULL, employee_job_type_id BIGINT UNSIGNED NOT NULL, employee_slot_id BIGINT UNSIGNED NOT NULL, metadata VARCHAR (255) DEFAULT NULL, remember_token VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (employee_type_id)  REFERENCES employee_types(id), FOREIGN KEY (mobile_number)  REFERENCES employee_register(mobile_number), FOREIGN KEY (employee_job_type_id)  REFERENCES  " + symbols.TABLE_EMPLOYEE_JOB_TYPES + " (id), FOREIGN KEY (employee_slot_id)  REFERENCES  " + symbols.TABLE_EMPLOYEE_SLOTS + " (id)) ;",
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_EMPLOYEE_PINS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, employee_id BIGINT UNSIGNED NOT NULL UNIQUE, pins_covered TEXT DEFAULT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (employee_id)  REFERENCES  " + symbols.TABLE_EMPLOYEES + " (id)) ;",
-        "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_EMPLOYEE_TRACK  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, employee_id BIGINT UNSIGNED NOT NULL, latitude VARCHAR(30) DEFAULT NULL, longitude VARCHAR(30) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (employee_id)  REFERENCES " + symbols.TABLE_EMPLOYEES +" (id)) ;",
+        "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_EMPLOYEE_TRACK  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, employee_id BIGINT UNSIGNED NOT NULL UNIQUE, latitude VARCHAR(30) DEFAULT NULL, longitude VARCHAR(30) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (employee_id)  REFERENCES " + symbols.TABLE_EMPLOYEES +" (id)) ;",
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_EMPLOYEE_RATINGS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, employee_id BIGINT UNSIGNED NOT NULL UNIQUE, one_star INTEGER DEFAULT 0, two_star INTEGER DEFAULT 0, three_star INTEGER DEFAULT 0, four_star INTEGER DEFAULT 0, five_star INTEGER DEFAULT 0, average_rating DECIMAL(18,2) DEFAULT 0.0, comments TEXT DEFAULT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (employee_id)  REFERENCES "+ symbols.TABLE_EMPLOYEES+" (id)) ;",
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_EMPLOYEE_DOCUMENTS + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, employee_id BIGINT UNSIGNED NOT NULL UNIQUE, document_type_id BIGINT UNSIGNED NOT NULL, document_number VARCHAR(255) NOT NULL, details VARCHAR(255) DEFAULT NULL, is_verified BOOLEAN DEFAULT FALSE, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (employee_id)  REFERENCES " + symbols.TABLE_EMPLOYEES + " (id), FOREIGN KEY (document_type_id) REFERENCES  " + symbols.TABLE_DOCUMENT_TYPES + " (id) ) ;",
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_EMPLOYEE_BLACK_LISTS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, employee_id BIGINT UNSIGNED NOT NULL UNIQUE, reason VARCHAR(255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (employee_id)  REFERENCES  " + symbols.TABLE_EMPLOYEES + " (id)) ;",
@@ -74,8 +66,7 @@ dbconnection.connect(function(err) {
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_CUSTOMER_ADDRESS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, customer_id BIGINT UNSIGNED NOT NULL, address TEXT DEFAULT NULL, country_id BIGINT UNSIGNED NOT NULL, state_id BIGINT UNSIGNED NOT NULL, city_id BIGINT UNSIGNED NOT NULL, pin VARCHAR(10) NOT NULL, land_mark VARCHAR(255) DEFAULT NULL, latitude VARCHAR(255) DEFAULT NULL, longitude VARCHAR(255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (customer_id)  REFERENCES  " + symbols.TABLE_CUSTOMERS + " (id), FOREIGN KEY (country_id)  REFERENCES  "+ symbols.TABLE_COUNTRIES+" (id), FOREIGN KEY (state_id)  REFERENCES "+ symbols.TABLE_STATES +" (id), FOREIGN KEY (city_id)  REFERENCES  "+ symbols.TABLE_CITIES +" (id) ) ;",
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_CUSTOMER_RATINGS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, customer_id BIGINT UNSIGNED NOT NULL UNIQUE, one_star INTEGER DEFAULT 0, two_star INTEGER DEFAULT 0, three_star INTEGER DEFAULT 0, four_star INTEGER DEFAULT 0, five_star INTEGER DEFAULT 0, average_rating DECIMAL(18,2) DEFAULT 0.0, comments TEXT DEFAULT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (customer_id)  REFERENCES "+ symbols.TABLE_CUSTOMERS+" (id)) ;",
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_ORDER_STATUS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, title VARCHAR (30) NOT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id)) ;",
-        "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_PAYMENT_MODES  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, title VARCHAR (30) NOT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id)) ;",
-        "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_ORDERS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, customer_id BIGINT UNSIGNED NOT NULL, customer_address_id BIGINT UNSIGNED NOT NULL, restaurant_id BIGINT UNSIGNED NOT NULL, delivery_boy_id BIGINT UNSIGNED NOT NULL, order_list TEXT DEFAULT NULL, order_status_id BIGINT UNSIGNED NOT NULL, payment_mode_id BIGINT UNSIGNED NOT NULL, is_paid BOOLEAN DEFAULT FALSE, original_amount DECIMAL DEFAULT 0.0, discount DECIMAL DEFAULT 0.0, amount_to_be_paid DECIMAL DEFAULT 0.0, delivery_related_hint VARCHAR (255) DEFAULT NULL, special_request VARCHAR (255) DEFAULT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (customer_id)  REFERENCES "+ symbols.TABLE_CUSTOMERS+" (id), FOREIGN KEY (customer_address_id)  REFERENCES "+ symbols.TABLE_CUSTOMER_ADDRESS+" (id), FOREIGN KEY (restaurant_id) REFERENCES "+ symbols.TABLE_RESTAURANTS+" (id), FOREIGN KEY (delivery_boy_id) REFERENCES "+ symbols.TABLE_EMPLOYEES+" (id), FOREIGN KEY (order_status_id) REFERENCES "+ symbols.TABLE_ORDER_STATUS+"(id), FOREIGN KEY (payment_mode_id) REFERENCES "+ symbols.TABLE_PAYMENT_MODES+"(id));",
+        "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_ORDERS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, customer_id BIGINT UNSIGNED NOT NULL, customer_address_id BIGINT UNSIGNED NOT NULL, restaurant_id BIGINT UNSIGNED NOT NULL, delivery_boy_id BIGINT UNSIGNED NOT NULL, order_list TEXT DEFAULT NULL, order_status_id BIGINT UNSIGNED NOT NULL, razor_pay_transaction_id VARCHAR(255) DEFAULT NULL, is_paid BOOLEAN DEFAULT FALSE, original_amount DECIMAL DEFAULT 0.0, discount DECIMAL DEFAULT 0.0, amount_to_be_paid DECIMAL DEFAULT 0.0, delivery_related_hint VARCHAR (255) DEFAULT NULL, special_request VARCHAR (255) DEFAULT NULL, estimated_delivery_time VARCHAR(255) DEFAULT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (customer_id)  REFERENCES "+ symbols.TABLE_CUSTOMERS+" (id), FOREIGN KEY (customer_address_id)  REFERENCES "+ symbols.TABLE_CUSTOMER_ADDRESS+" (id), FOREIGN KEY (restaurant_id) REFERENCES "+ symbols.TABLE_RESTAURANTS+" (id), FOREIGN KEY (order_status_id) REFERENCES "+ symbols.TABLE_ORDER_STATUS+"(id));",
     ];
 
     tableArr.forEach(createQuery => {
@@ -100,7 +91,6 @@ const TableKeys = {
     [symbols.TABLE_EMPLOYEES]:['country_code','mobile_number','alternate_mobile_number','email_id','first_name',
             'middle_name','last_name','father_name','new_password', 'password','profile_picture','is_profile_completed','employee_type_id',
             'employee_job_type_id','employee_slot_id','metadata','remember_token'],
-    [symbols.TABLE_EMPLOYEE_PINS]:['employee_id','pins_covered'],
     [symbols.TABLE_EMPLOYEE_TRACK]:['employee_id','latitude','longitude'],
     [symbols.TABLE_EMPLOYEE_RATINGS]:['employee_id','one_star','two_star','three_star','four_star','five_star','average_rating',
         'comments','metadata'],
@@ -120,6 +110,7 @@ const TableKeys = {
     'latitude','longitude'],
     [symbols.TABLE_CUSTOMER_RATINGS]:['customer_id','one_star','two_star','three_star','four_star','five_star','average_rating',
     'comments','metadata'],
+    [symbols.TABLE_ORDERS]:['customer_id','customer_address_id','restaurant_id','delivery_boy_id','order_list','order_status_id','razor_pay_transaction_id','is_paid','original_amount','discount','amount_to_be_paid','delivery_related_hint','special_request','estimated_delivery_time','metadata'],
 };
 
 const TableWhereKey = {
@@ -142,6 +133,7 @@ const TableWhereKey = {
     [symbols.TABLE_CUSTOMERS]:['mobile_number','id'],
     [symbols.TABLE_CUSTOMER_ADDRESS]:['customer_id','id'],
     [symbols.TABLE_CUSTOMER_RATINGS]:['customer_id','id'],
+    [symbols.TABLE_ORDERS]:['id','customer_id','restaurant_id','delivery_boy_id'],
 };
 
 
@@ -170,6 +162,7 @@ module.exports.restrictUpdateForTableKeys = {
     [symbols.TABLE_CUSTOMERS]:['mobile_number','id'],
     [symbols.TABLE_CUSTOMER_ADDRESS]:['customer_id','id'],
     [symbols.TABLE_CUSTOMER_RATINGS]:['customer_id','id'],
+    [symbols.TABLE_ORDERS]:['customer_id','id'],
 };
 
 module.exports.chnageFieldNameForupdate = {

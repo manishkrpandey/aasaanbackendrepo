@@ -3,6 +3,7 @@ const express = require('express');
 const adminModel = require('../models/admin_model');
 const restaurantModel = require('../models/restaurant_model');
 const customerModel = require('../models/customer_model');
+const employeeModel = require('../models/employee_model');
 const symbols = require('../config/symbols');
 const common = require('../lib/common');
 const validation = require('../models/validation');
@@ -36,13 +37,24 @@ router.post(symbols.POST_REGISTER_EMPLOYEE, function (req, res){
         case symbols.COMMAND_INSERT:
             adminModel.employeeRegister(function(insertId){
                 if(insertId > 0){
-                  msg91.send('9711189363', "New Employee added successfully", function(err, response){
-                    console.log(err);
-                    console.log(response);
-                });
-                    let data = {};
-                    data["id"] = insertId;
-                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, '', data);
+                    common.generateOtp(function(success, otp){
+                        if(success)
+                        {
+                            employeeModel.saveOtp(otp,function(status){
+                                if(status){
+                                    let data = {};
+                                    data["id"] = insertId;
+                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp',{...data,"otp":otp});
+                                }else{
+                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');
+                                }
+                            });
+                        }
+                        else
+                        {
+                            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registratin failed, ' + otp);
+                        }
+                    });
                 }else{
                     common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registration failed');
                 }

@@ -8,7 +8,6 @@ module.exports = {
     TABLE_EMPLOYEE_SLOTS: 'employee_slots',
     TABLE_EMPLOYEE_REGISTER: 'employee_register',
     TABLE_EMPLOYEES: 'employees',
-    TABLE_EMPLOYEE_PINS: 'employee_pins',
     TABLE_EMPLOYEE_TRACK: 'employee_track',
     TABLE_EMPLOYEE_RATINGS: 'employee_ratings',
     TABLE_EMPLOYEE_DOCUMENTS: 'employee_documents',
@@ -27,7 +26,6 @@ module.exports = {
     TABLE_CUSTOMER_RATINGS: 'customer_ratings',
     TABLE_CUSTOMER_ADDRESS: 'customer_address',
     TABLE_ORDER_STATUS:'order_status',
-    TABLE_PAYMENT_MODES:'payment_modes',
     TABLE_ORDERS: 'orders',
     
     GET_API_ALL: "/apis",
@@ -37,6 +35,7 @@ module.exports = {
     API_GENERAL:"/gen",
     API_RESTAURANT:"/restaurant",
     API_CUSTOMER:"/customer",
+    API_ORDER:"/order",
     
     POST_REGISTER: "/register",
     POST_CREATE: "/create",
@@ -51,6 +50,13 @@ module.exports = {
 
     POST_IS_REGISTERED:"/isregistered",
     POST_VERIFY_OTP:"/verifyotp",
+
+    POST_ORDER_PLACED: "/place",
+    POST_ORDER_CONFIRMED: "/confirm",
+    POST_ORDER_REJECTED: "/reject",
+    POST_ORDER_PICKED: "/picked",
+    POST_ORDER_DELIVERED: "/delivered",
+    POST_ORDER_GET: "/GET",
 
     COMMAND_ACTIONS: "/actions",
 
@@ -98,6 +104,21 @@ module.exports = {
     CONSTANT_THUMBMNAILS_FILE_NAME:'',
     CONSTANT_THUMBMNAILS_WIDTH:340,
     CONSTANT_THUMBMNAILS_HEIGHT:260,
+
+    ORDER_STATUS_PLACED:1,
+    ORDER_STATUS_REJECTED:2,
+    ORDER_STATUS_CONFIRMED:3,
+    ORDER_STATUS_DELIVERY_BOY_ASSIGNED:4,
+    ORDER_STATUS_PICKED:5,
+    ORDER_STATUS_DELIVERED:6,
+
+    SOCKET_ACTION_PLACED:'order_placed',
+    SOCKET_ACTION_REJECTED:'order_rejected',
+    SOCKET_ACTION_CONFIRMED:'order_confirmed',
+    SOCKET_ACTION_DELIVERY_BOY_ASSIGNED:'order_delivery_boy_assigned',
+    SOCKET_ACTION_PICKED:'order_picked',
+    SOCKET_ACTION_DELIVERED:'order_delivered',
+    SOCKET_ACTION_DELIVERY_BOY_ASSIGN_FAILED:'order_delivery_boy_assign_failed',
 
     CONSTANT_URL_PRE:'http://',
     CONSTANT_SERVER_HOST: '159.65.148.202',
