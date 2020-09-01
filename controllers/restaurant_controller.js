@@ -2,6 +2,7 @@ const express = require('express');
 
 const restaurantModel = require('../models/restaurant_model');
 const validation = require('../models/validation');
+const couponController = require('./coupon_controller');
 const symbols = require('../config/symbols');
 const common = require('../lib/common');
 const router = express.Router();
@@ -82,7 +83,6 @@ router.post(symbols.POST_DELETE, function (req, res){
 
 });
 
-
 router.all(symbols.COMMAND_ACTIONS, function (req, res){
 
     switch (symbols.REQUEST_DATA['command']) {
@@ -154,5 +154,5 @@ router.all(symbols.COMMAND_ACTIONS, function (req, res){
             break;
         }
 });
-
+router.use(symbols.API_COUPON,couponController);
 module.exports = router

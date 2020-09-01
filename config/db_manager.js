@@ -59,7 +59,6 @@ dbconnection.connect(function(err) {
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_RESTAURANT_TYPES  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, title VARCHAR (30) NOT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id)) ;",
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_RESTAURANT_MEAL_TYPES  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, title VARCHAR (30) NOT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id)) ;", 
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_RESTAURANTS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, rest_code VARCHAR (255) DEFAULT NULL UNIQUE, contact_person VARCHAR (255) DEFAULT NULL, country_code VARCHAR (10) DEFAULT 91, mobile_number VARCHAR (20) NOT NULL UNIQUE, alternate_mobile_number VARCHAR (20) DEFAULT NULL, email_id VARCHAR (255) DEFAULT NULL, restaurant_name VARCHAR (255) DEFAULT NULL, opening_time VARCHAR (50) DEFAULT NULL, closing_time VARCHAR (50) DEFAULT NULL, delivery_end_time VARCHAR (50) DEFAULT NULL, is_delivery_boy_required BOOLEAN DEFAULT FALSE, password VARCHAR (255) NOT NULL, restaurant_pictures TEXT DEFAULT NULL, is_active BOOLEAN DEFAULT TRUE, is_deleted BOOLEAN DEFAULT FALSE, is_agent_verified BOOLEAN DEFAULT FALSE, is_admin_verified BOOLEAN DEFAULT FALSE, restaurant_type_id BIGINT UNSIGNED NOT NULL,restaurant_meal_type_id BIGINT UNSIGNED NOT NULL, address TEXT DEFAULT NULL, country_id BIGINT UNSIGNED NOT NULL, state_id BIGINT UNSIGNED NOT NULL, city_id BIGINT UNSIGNED NOT NULL, pin VARCHAR(10) NOT NULL, land_mark VARCHAR(255) DEFAULT NULL, latitude VARCHAR(255) DEFAULT NULL, longitude VARCHAR(255) DEFAULT NULL, metadata VARCHAR (255) DEFAULT NULL,document_number VARCHAR (255) DEFAULT NULL,account_ifsc_code VARCHAR (255) DEFAULT NULL,account_number VARCHAR (255) DEFAULT NULL,restaurent_document_url VARCHAR (255) DEFAULT NULL,resturent_account_img_url VARCHAR (255) DEFAULT NULL, remember_token VARCHAR (255) DEFAULT NULL, agent_id BIGINT UNSIGNED NOT NULL, radius_covered_in_km INT UNSIGNED default 0, otp varchar(10) default 0, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (restaurant_type_id)  REFERENCES "+ symbols.TABLE_RESTAURANT_TYPES  + "(id), FOREIGN KEY (restaurant_meal_type_id)  REFERENCES "+ symbols.TABLE_RESTAURANT_MEAL_TYPES  + "(id), FOREIGN KEY (agent_id)  REFERENCES "+ symbols.TABLE_EMPLOYEES  + "(id));",
-        "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_RESTAURANT_PINS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, restaurant_id BIGINT UNSIGNED NOT NULL UNIQUE, pins_covered TEXT DEFAULT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (restaurant_id)  REFERENCES  " + symbols.TABLE_RESTAURANTS + " (id)) ;",
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_RESTAURANT_MENU  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, restaurant_id BIGINT UNSIGNED NOT NULL UNIQUE, menu_items TEXT DEFAULT NULL, menu_tags TEXT DEFAULT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (restaurant_id)  REFERENCES  " + symbols.TABLE_RESTAURANTS + " (id)) ;",
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_AVAILABILITY  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, employee_id BIGINT UNSIGNED NOT NULL UNIQUE,  is_available BOOLEAN DEFAULT FALSE, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (employee_id)  REFERENCES  " + symbols.TABLE_EMPLOYEES + " (id)) ;",
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_CUSTOMERS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, country_code VARCHAR (10) DEFAULT 91, mobile_number VARCHAR (20) NOT NULL UNIQUE, alternate_mobile_number VARCHAR (20) DEFAULT NULL, email_id VARCHAR (255) DEFAULT NULL, first_name VARCHAR (255) DEFAULT NULL, middle_name VARCHAR (255) DEFAULT NULL, last_name VARCHAR (255) DEFAULT NULL, password VARCHAR (255) NOT NULL, profile_picture VARCHAR (255) DEFAULT NULL, is_active BOOLEAN DEFAULT TRUE, is_deleted BOOLEAN DEFAULT FALSE, is_verified BOOLEAN DEFAULT FALSE, metadata VARCHAR (255) DEFAULT NULL, remember_token VARCHAR (255) DEFAULT NULL, otp varchar(10) default 0, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id));",    
@@ -67,13 +66,13 @@ dbconnection.connect(function(err) {
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_CUSTOMER_RATINGS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, customer_id BIGINT UNSIGNED NOT NULL UNIQUE, one_star INTEGER DEFAULT 0, two_star INTEGER DEFAULT 0, three_star INTEGER DEFAULT 0, four_star INTEGER DEFAULT 0, five_star INTEGER DEFAULT 0, average_rating DECIMAL(18,2) DEFAULT 0.0, comments TEXT DEFAULT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (customer_id)  REFERENCES "+ symbols.TABLE_CUSTOMERS+" (id)) ;",
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_ORDER_STATUS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, title VARCHAR (30) NOT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id)) ;",
         "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_ORDERS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, customer_id BIGINT UNSIGNED NOT NULL, customer_address_id BIGINT UNSIGNED NOT NULL, restaurant_id BIGINT UNSIGNED NOT NULL, delivery_boy_id BIGINT UNSIGNED NOT NULL, order_list TEXT DEFAULT NULL, order_status_id BIGINT UNSIGNED NOT NULL, razor_pay_transaction_id VARCHAR(255) DEFAULT NULL, is_paid BOOLEAN DEFAULT FALSE, original_amount DECIMAL DEFAULT 0.0, discount DECIMAL DEFAULT 0.0, amount_to_be_paid DECIMAL DEFAULT 0.0, delivery_related_hint VARCHAR (255) DEFAULT NULL, special_request VARCHAR (255) DEFAULT NULL, estimated_delivery_time VARCHAR(255) DEFAULT NULL, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (customer_id)  REFERENCES "+ symbols.TABLE_CUSTOMERS+" (id), FOREIGN KEY (customer_address_id)  REFERENCES "+ symbols.TABLE_CUSTOMER_ADDRESS+" (id), FOREIGN KEY (restaurant_id) REFERENCES "+ symbols.TABLE_RESTAURANTS+" (id), FOREIGN KEY (order_status_id) REFERENCES "+ symbols.TABLE_ORDER_STATUS+"(id));",
+        "CREATE TABLE IF NOT EXISTS "+ symbols.TABLE_COUPONS  + " ( id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, coupon_name VARCHAR (255) DEFAULT NULL, restaurant_id BIGINT UNSIGNED NOT NULL, discount_percent DECIMAL DEFAULT 0.0, max_discount DECIMAL DEFAULT 0.0, min_cart_value DECIMAL DEFAULT 0.0, metadata VARCHAR (255) DEFAULT NULL, created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), FOREIGN KEY (restaurant_id) REFERENCES "+ symbols.TABLE_RESTAURANTS+" (id));",
     ];
 
     tableArr.forEach(createQuery => {
         
         dbconnection.query(createQuery, function (err, result) {
             if (err){
-            console.log(createQuery);
                 
                 throw err;
             }
@@ -102,7 +101,6 @@ const TableKeys = {
     [symbols.TABLE_RESTAURANT_MEAL_TYPES]:['title'],
     [symbols.TABLE_RESTAURANTS]:['rest_code','contact_person','mobile_number','alternate_mobile_number','email_id','restaurant_name','opening_time','closing_time','delivery_end_time','is_delivery_boy_required','new_password', 'password','restaurant_pictures','is_active','is_deleted','is_agent_verified','is_admin_verified','restaurant_type_id','restaurant_meal_type_id','address','country_id','state_id','city_id','pin','land_mark',
     'latitude','longitude','metadata','document_number','account_ifsc_code','account_number','restaurent_document_url','resturent_account_img_url','remember_token','agent_id','radius_covered_in_km','otp','resturent_account_img_url','restaurent_document_url','account_number','account_ifsc_code','document_number'],
-    [symbols.TABLE_RESTAURANT_PINS]:['restaurant_id','pins_covered'],    
     [symbols.TABLE_RESTAURANT_MENU]:['restaurant_id','menu_items','menu_tags'],
     [symbols.TABLE_AVAILABILITY]:['employee_id','is_available'],
     [symbols.TABLE_CUSTOMERS]:['country_code','mobile_number','alternate_mobile_number','email_id','first_name','middle_name','last_name','password','profile_picture','is_active','is_deleted','is_verified','metadata','remember_token','otp'],
@@ -111,6 +109,7 @@ const TableKeys = {
     [symbols.TABLE_CUSTOMER_RATINGS]:['customer_id','one_star','two_star','three_star','four_star','five_star','average_rating',
     'comments','metadata'],
     [symbols.TABLE_ORDERS]:['customer_id','customer_address_id','restaurant_id','delivery_boy_id','order_list','order_status_id','razor_pay_transaction_id','is_paid','original_amount','discount','amount_to_be_paid','delivery_related_hint','special_request','estimated_delivery_time','metadata'],
+    [symbols.TABLE_COUPONS]:['restaurant_id','coupon_name','discount_percent','max_discount','min_cart_value','metadata'],
 };
 
 const TableWhereKey = {
@@ -127,13 +126,13 @@ const TableWhereKey = {
     [symbols.TABLE_RESTAURANT_TYPES]:['id'],
     [symbols.TABLE_RESTAURANT_MEAL_TYPES]:['id'],
     [symbols.TABLE_RESTAURANTS]:['mobile_number','email_id','id','agent_id','rest_code'],
-    [symbols.TABLE_RESTAURANT_PINS]:['restaurant_id','id'],    
     [symbols.TABLE_RESTAURANT_MENU]:['restaurant_id','id'],
     [symbols.TABLE_AVAILABILITY]:['employee_id','id'],
     [symbols.TABLE_CUSTOMERS]:['mobile_number','id'],
     [symbols.TABLE_CUSTOMER_ADDRESS]:['customer_id','id'],
     [symbols.TABLE_CUSTOMER_RATINGS]:['customer_id','id'],
     [symbols.TABLE_ORDERS]:['id','customer_id','restaurant_id','delivery_boy_id'],
+    [symbols.TABLE_COUPONS]:['id','restaurant_id'],
 };
 
 
@@ -156,13 +155,13 @@ module.exports.restrictUpdateForTableKeys = {
     [symbols.TABLE_RESTAURANT_TYPES]:['id'],
     [symbols.TABLE_RESTAURANT_MEAL_TYPES]:['id'],
     [symbols.TABLE_RESTAURANTS]:['rest_code','mobile_number','email_id','agent_id'],
-    [symbols.TABLE_RESTAURANT_PINS]:['restaurant_id'],    
     [symbols.TABLE_RESTAURANT_MENU]:['restaurant_id'],
     [symbols.TABLE_AVAILABILITY]:['employee_id','id'],
     [symbols.TABLE_CUSTOMERS]:['mobile_number','id'],
     [symbols.TABLE_CUSTOMER_ADDRESS]:['customer_id','id'],
     [symbols.TABLE_CUSTOMER_RATINGS]:['customer_id','id'],
     [symbols.TABLE_ORDERS]:['customer_id','id'],
+    [symbols.TABLE_COUPONS]:['restaurant_id','id'],
 };
 
 module.exports.chnageFieldNameForupdate = {

@@ -76,9 +76,20 @@ module.exports.orderDelivered = function(callback) {
     var data = {};
     data['order_status_id'] = symbols.ORDER_STATUS_DELIVERED;
     data['id'] = symbols.REQUEST_DATA['id'];
+    employee_id = symbols.REQUEST_DATA['employee_id'];
     dbManager.updateData(symbols.TABLE_ORDERS,data)
         .then( success => {
-            callback(true);
+            var data = {};
+            data['is_available'] = 1;
+            data['employee_id'] = employee_id;
+            dbManager.updateData(symbols.TABLE_AVAILABILITY,data)
+                .then( success => {
+                    callback(true);
+                })
+                .catch(err=>{
+                    callback(false);
+                    //??? log error
+                });
         })
         .catch(err=>{
             callback(false);
@@ -111,7 +122,7 @@ module.exports.assignDeliveryBoy = function(orderData, callback) {
                     data['order_status_id'] = symbols.ORDER_STATUS_DELIVERY_BOY_ASSIGNED;
                     data['delivery_boy_id'] = deliverBoyId;
                     data['id'] = symbols.REQUEST_DATA['id'];
-                    sql_update_order = "UPDATE orders set  order_status_id = '" + data['order_status_id'] + "', delivery_boy_id = '"+ data['delivery_boy_id'] +"' where id = '"+data['id']+"'";
+                    sql_update_order = "UPDATE "+symbols.TABLE_ORDERS+" set  order_status_id = '" + data['order_status_id'] + "', delivery_boy_id = '"+ data['delivery_boy_id'] +"' where id = '"+data['id']+"'";
                    dbManager.dbconnection.query(sql_update_order, function (err, result) {
                         if (err) {
                             console.log(err);

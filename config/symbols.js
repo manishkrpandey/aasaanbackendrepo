@@ -20,13 +20,13 @@ module.exports = {
     TABLE_RESTAURANT_MEAL_TYPES:'restaurant_meal_types',
     TABLE_RESTAURANTS:'restaurants',
     TABLE_RESTAURANT_MENU:'restaurant_menu',
-    TABLE_RESTAURANT_PINS:'restaurant_pins',
     TABLE_AVAILABILITY:'availability',
     TABLE_CUSTOMERS:"customers",
     TABLE_CUSTOMER_RATINGS: 'customer_ratings',
     TABLE_CUSTOMER_ADDRESS: 'customer_address',
     TABLE_ORDER_STATUS:'order_status',
     TABLE_ORDERS: 'orders',
+    TABLE_COUPONS: 'coupons',
     
     GET_API_ALL: "/apis",
     
@@ -36,6 +36,7 @@ module.exports = {
     API_RESTAURANT:"/restaurant",
     API_CUSTOMER:"/customer",
     API_ORDER:"/order",
+    API_COUPON:"/coupon",
     
     POST_REGISTER: "/register",
     POST_CREATE: "/create",
@@ -683,7 +684,92 @@ const JSON_COMMANDS = {
                 "command":"deleteaddress",
                 "id // u may give customer id":"7"
             }
-        }    
+        },
+        {
+            "description": "Order placed",
+            "path": module.exports.API_ORDER + module.exports.POST_ORDER_PLACED,
+            "params":{
+                "customer_id":"1",
+                "customer_address_id":"1",
+                "restaurant_id":"1",
+                "order_list":{"rasagulla":"4"},
+                "is_paid":true,
+                "razor_pay_transaction_id":"t1234",
+                "original_amount":200,
+                "discount":20,
+                "amount_to_be_paid":180,
+                "delivery_related_hint":"be ready",
+                "special_request":"chilli more"
+                }
+        },
+        {
+            "description": "Order Confirm",
+            "path": module.exports.API_ORDER + module.exports.POST_ORDER_CONFIRMED,
+            "params":{
+                "id": "11",
+                "estimated_delivery_time":"1HR"
+            }
+        },
+        {
+            "description": "Order Reject",
+            "path": module.exports.API_ORDER + module.exports.POST_ORDER_REJECTED,
+            "params":{
+                "id": "11"
+            }
+        },
+        {
+            "description": "Order Picked",
+            "path": module.exports.API_ORDER + module.exports.POST_ORDER_PICKED,
+            "params":{
+                "id": "11"
+            }
+        },
+        {
+            "description": "Order Delivered",
+            "path": module.exports.API_ORDER + module.exports.POST_ORDER_DELIVERED,
+            "params":{
+                "id": "11",
+                "employee_id":"1"
+            }
+        },
+        {
+            "description": "Coupon create",
+            "path": module.exports.API_RESTAURANT + module.exports.API_COUPON + module.exports.POST_CREATE,
+            "params":{
+                "coupon_name":"its long offer",
+                "restaurant_id":1,
+                "discount_percent":40,
+                "max_discount":2000,
+                "min_cart_value":5000
+            }
+        },
+        {
+            "description": "Coupon Update",
+            "path": module.exports.API_RESTAURANT + module.exports.API_COUPON + module.exports.POST_UPDATE,
+            "params":{
+                "id":1,
+                "coupon_name":"its long offer",
+                "restaurant_id":1,
+                "discount_percent":40,
+                "max_discount":2000,
+                "min_cart_value":5000
+            }
+        } ,
+        {
+            "description": "Coupon Retrieve",
+            "path": module.exports.API_RESTAURANT + module.exports.API_COUPON + module.exports.GET_RETRIEVE,
+            "params":{
+                "id":1,//optional
+                "restaurant_id":1 //optional
+            }
+        } ,
+        {
+            "description": "Coupon Delete",
+            "path": module.exports.API_RESTAURANT + module.exports.API_COUPON + module.exports.POST_DELETE,
+            "params":{
+                "id":1,//optional
+            }
+        }   
     ]
 };
 

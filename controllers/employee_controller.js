@@ -42,7 +42,7 @@ router.post(symbols.POST_VERIFY_OTP, function (req, res){
         if(status){
             let otpFromTable = result[0].otp;
             if(otpFromUser == otpFromTable){
-                common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'verification done');    
+                common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'verification done',result);    
             }else{
                 common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Verification failed');        
             }
