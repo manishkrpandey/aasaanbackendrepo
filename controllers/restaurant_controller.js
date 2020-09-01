@@ -46,6 +46,17 @@ router.get(symbols.GET_RETRIEVE, function (req, res){
     },symbols.FLAG_RESTAURANT);
 });
 
+router.get(symbols.GET_RETRIEVE_ALL, function (req, res){
+
+    restaurantModel.restaurantRetrieveAll(function(restaurant){
+        if(restaurant != false){
+            common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Detail', restaurant);    
+        }else{
+            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Not found');    
+        }
+    },symbols.FLAG_RESTAURANT);
+});
+
 router.post(symbols.POST_UPDATE, function (req, res){
 
     restaurantModel.restaurantUpdate(function(status){

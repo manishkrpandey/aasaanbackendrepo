@@ -44,6 +44,7 @@ module.exports = {
     POST_DELETE: "/delete",
 
     GET_RETRIEVE: "/retrieve",
+    GET_RETRIEVE_ALL:"/retrieveall",
     
     POST_REGISTER_EMPLOYEE:"/registeremployee",
     POST_DOCUMENT:"/document",

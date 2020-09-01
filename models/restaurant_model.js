@@ -5,7 +5,7 @@ const common = require('../lib/common');
 module.exports.restaurantCreate = function(callback) {
 
     //??? generate below
-    var rest_code = "xxxx1235";
+    var rest_code = "AASAANEATS"+ symbols.REQUEST_DATA['mobile_number'];
     symbols.REQUEST_DATA['rest_code'] = rest_code;
     dbManager.insertData(symbols.TABLE_RESTAURANTS)
         .then( insertId => {
@@ -128,6 +128,22 @@ module.exports.restaurantRetrieve = function(callback,accessFlag = null) {
     }else{
         where += " AND false";
     }
+    sql += where;
+    dbManager.getData(sql)
+        .then( result => {
+            callback(result);
+        })
+        .catch(err=>{
+            callback(false);
+            //??? log error
+        });
+}
+
+module.exports.restaurantRetrieveAll = function(callback,accessFlag = null) {
+
+    var data = symbols.REQUEST_DATA;
+    var sql = "SELECT * FROM "+symbols.TABLE_RESTAURANTS;//write accroding to login
+    var where = " where 1 AND is_deleted = false";
     sql += where;
     dbManager.getData(sql)
         .then( result => {
