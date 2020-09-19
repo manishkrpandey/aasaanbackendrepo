@@ -8,7 +8,7 @@ const common = require('../lib/common');
 const log = require('simple-node-logger').createSimpleLogger('project.log');
 const router = express.Router();
 
-router.post(symbols.POST_IS_REGISTERED, function (req, res){
+router.post(symbols.POST_LOGIN, function (req, res){
 log.isInfo(req);
     validation.isRegisteredEmployee(function(status){
         if(status){
@@ -38,13 +38,22 @@ log.isInfo(req);
 router.post(symbols.POST_VERIFY_OTP, function (req, res){
 
     var otpFromUser = symbols.REQUEST_DATA['otp'];
-    validation.verifyOtp(symbols.FLAG_AGENT,function(status,result){
+    validation.verifyOtp(symbols.FLAG_EMPLOYEE,function(status,result){
         if(status){
             let otpFromTable = result[0].otp;
             if(otpFromUser == otpFromTable){
-                common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'verification done',result);    
+                symbols.REQUEST_DATA['remember_token'] = "new_token";//???code to generate
+                symbols.REQUEST_DATA['id'] = result[0].id;
+                employeeModel.employeeUpdate(function(status){
+                    if(status){
+                        result['remember_token'] = symbols.REQUEST_DATA['remember_token'];
+                        common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'verification done',result);    
+                    }else{
+                        common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Verification failed');        
+                    }
+                });
             }else{
-                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Verification failed');        
+                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'OTP does not matched');        
             }
             
         }else{
@@ -66,17 +75,6 @@ router.post(symbols.POST_CREATE, function (req, res){
             });
         }else{
             common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Not resgistered');    
-        }
-    });
-});
-
-router.post(symbols.POST_LOGIN, function (req, res){
-
-    employeeModel.login(function(status,remember_token){
-        if(status){
-            common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, '', {"remember_token":remember_token});    
-        }else{
-            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Login failed');    
         }
     });
 });

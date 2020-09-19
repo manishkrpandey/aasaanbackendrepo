@@ -134,6 +134,7 @@ module.exports = {
     IS_CUSTOMER:'',
 
     FLAG_ADMIN: "admin",
+    FLAG_EMPLOYEE: 'employee',
     FLAG_AGENT: 'agent',
     FLAG_DELIVERY_BOY: 'deliveryboy',
     FLAG_RESTAURANT: 'restaurant',
@@ -366,7 +367,7 @@ const JSON_COMMANDS = {
         },
         {
             "description": "Check is employee registered",
-            "path": module.exports.API_EMPLOYEE + module.exports.POST_IS_REGISTERED,
+            "path": module.exports.API_EMPLOYEE + module.exports.POST_LOGIN,
             "params": {
                 "mobile_number":"9811035342",
                 "employee_type_id":"1"

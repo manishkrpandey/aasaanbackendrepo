@@ -27,15 +27,44 @@ router.post(symbols.POST_CREATE, function (req, res){
 
 router.post(symbols.POST_LOGIN, function (req, res){
     
-    restaurantModel.login(function(status,remember_token){
-        if(status){
-            common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, '', {"remember_token":remember_token});    
-        }else{
-            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Login failed');    
-        }
+    common.generateOtp(function(otp){
+        restaurantModel.saveOtp(otp,function(status){
+            if(status){
+                common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp');    
+            }else{
+                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
+            }
+        });
     });
 });
 
+
+router.post(symbols.POST_VERIFY_OTP, function (req, res){
+
+    var otpFromUser = symbols.REQUEST_DATA['otp'];
+    validation.verifyOtp(symbols.FLAG_RESTAURANT, function(status,result){
+        if(status){
+            let otpFromTable = result[0].otp;
+            if(otpFromUser == otpFromTable){
+                symbols.REQUEST_DATA['remember_token'] = "new_token";//???code to generate
+                symbols.REQUEST_DATA['id'] = result[0].id;
+                restaurantModel.restaurantUpdate(function(status){
+                    if(status){
+                        result['remember_token'] = symbols.REQUEST_DATA['remember_token'];
+                        common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'verification done',result);    
+                    }else{
+                        common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Verification failed');        
+                    }
+                });
+            }else{
+                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'OTP does not matched');        
+            }
+            
+        }else{
+            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Not resgistered');    
+        }
+    });
+});
 router.get(symbols.GET_RETRIEVE, function (req, res){
 
     restaurantModel.restaurantRetrieve(function(restaurant){

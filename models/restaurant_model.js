@@ -346,3 +346,16 @@ function filterRestaurants(restaurants){
     }    
     });
 }
+
+module.exports.saveOtp = function(otp, callback) {
+    data = symbols.REQUEST_DATA;
+    data['otp'] = otp;
+    dbManager.updateData(symbols.TABLE_RESTAURANTS, data)
+        .then( result => {
+            callback(true);
+        })
+        .catch(err=>{
+            callback(false);
+            //??? log error
+        });
+}

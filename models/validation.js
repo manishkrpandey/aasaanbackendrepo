@@ -129,12 +129,18 @@ module.exports.isCustomerExist = function(callback) {
 module.exports.verifyOtp = function(accessFlag = symbols.FLAG_AGENT, callback) {
     data = symbols.REQUEST_DATA;
     var sql = "";
-    if(accessFlag == symbols.FLAG_AGENT){
+    if(accessFlag == symbols.FLAG_EMPLOYEE){
         //var sql = "SELECT * FROM "+ symbols.TABLE_EMPLOYEE_REGISTER+" WHERE mobile_number = '"+ data['mobile_number'] + "' AND employee_type_id = '"+ data['employee_type_id'] + "' AND updated_on  > (NOW() - INTERVAL 10 MINUTE)";
         //??? uncomment above line with time check
         var sql = "SELECT * FROM "+ symbols.TABLE_EMPLOYEE_REGISTER+" WHERE mobile_number = '"+ data['mobile_number'] + "' AND employee_type_id = '"+ data['employee_type_id'] + "'";
     }else if(accessFlag == symbols.FLAG_CUSTOMER){
         var sql = "SELECT * FROM "+ symbols.TABLE_CUSTOMERS+" WHERE mobile_number = '"+ data['mobile_number'] + "'";
+    } 
+    else if(accessFlag == symbols.FLAG_RESTAURANT){
+        var sql = "SELECT * FROM "+ symbols.TABLE_RESTAURANTS+" WHERE mobile_number = '"+ data['mobile_number'] + "'";
+    } 
+    else if(accessFlag == symbols.FLAG_ADMIN){
+        var sql = "SELECT * FROM "+ symbols.TABLE_ADMIN+" WHERE mobile_number = '"+ data['mobile_number'] + "'";
     } 
     dbManager.getData(sql)
         .then( result => {

@@ -8,22 +8,10 @@ module.exports.getAdminData = function(admin_id,password,callback) {
     callback(true);    
 }
 
-module.exports.login = function(callback) {
-    data = symbols.REQUEST_DATA;
-    var sql = "select * from " + symbols.TABLE_ADMIN + " where user_name = " + dbManager.dbconnection.escape(data['user_name']) + " and "+
-                " password = " + dbManager.dbconnection.escape(data['password']) ;
-    dbManager.getData(sql)
-        .then( result => {
-            var remember_token = "new_token";//code to generate
-
-            dbManager.updateData(symbols.TABLE_ADMIN, {"remember_token":remember_token,"id":result[0].id})
-                .then( success => {
-                    callback(true,remember_token);
-                })
-                .catch(err=>{
-                    callback(false);
-                    //??? log error
-                });
+module.exports.adminUpdate = function(callback) {
+    dbManager.updateData(data)
+        .then( success => {
+            callback(true,remember_token);
         })
         .catch(err=>{
             callback(false);
@@ -76,6 +64,19 @@ module.exports.deleteEmployeeRegister = function(callback) {
     data = symbols.REQUEST_DATA;
     dbManager.deleteData(symbols.TABLE_EMPLOYEE_REGISTER, data['id'])
         .then( success => {
+            callback(true);
+        })
+        .catch(err=>{
+            callback(false);
+            //??? log error
+        });
+}
+
+module.exports.saveOtp = function(otp, callback) {
+    data = symbols.REQUEST_DATA;
+    data['otp'] = otp;
+    dbManager.updateData(symbols.TABLE_ADMIN, data)
+        .then( result => {
             callback(true);
         })
         .catch(err=>{

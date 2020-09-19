@@ -12,24 +12,26 @@ router.post(symbols.POST_REGISTER, function (req, res){
     validation.isCustomerExist(function(status,result){
 
         if(status){
-            var data = {};
-            data['is_verified'] = false;
-            data['id'] = result[0].id;
-            customerModel.customerUpdate(data,function(status){
-                if(status){
-                    common.generateOtp(function(otp){
-                        customerModel.saveOtp(otp,function(status){
-                            if(status){
-                                common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp');    
-                            }else{
-                                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
-                            }
-                        });
-                    });
-                }else{
-                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registratin failed');                
-                }
-            });
+            // var data = {};
+            // data['is_verified'] = false;
+            // data['id'] = result[0].id;
+            // customerModel.customerUpdate(data,function(status){
+            //     if(status){
+            //         common.generateOtp(function(otp){
+            //             customerModel.saveOtp(otp,function(status){
+            //                 if(status){
+            //                     common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp');    
+            //                 }else{
+            //                     common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
+            //                 }
+            //             });
+            //         });
+            //     }else{
+            //         common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registratin failed');                
+            //     }
+            // });
+            //??? 
+            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Customer Already Exist');
 
         }else{
             customerModel.registerCustomer(function(status){
@@ -52,6 +54,25 @@ router.post(symbols.POST_REGISTER, function (req, res){
     
 });
 
+router.post(symbols.POST_LOGIN, function (req, res){
+
+    common.generateOtp(function(otp){
+        customerModel.saveOtp(otp,function(status){
+            if(status){
+                common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp');    
+            }else{
+                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
+            }
+        });
+    });
+    // customerModel.login(function(status,remember_token){
+    //     if(status){
+    //         common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, '', {"remember_token":remember_token});    
+    //     }else{
+    //         common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Login failed');    
+    //     }
+    // });
+});
 router.post(symbols.POST_VERIFY_OTP, function (req, res){
 
     var otpFromUser = symbols.REQUEST_DATA['otp'];
@@ -62,9 +83,11 @@ router.post(symbols.POST_VERIFY_OTP, function (req, res){
                 var data = {};
                 data['is_verified'] = true;
                 data['id'] = result[0].id;
+                data['remember_token'] = "new_token";//???code to generate
                 customerModel.customerUpdate(data,function(status){
                     if(status){
-                        common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'verification done',{'id':result[0].id});    
+                        result['remember_token'] = data['remember_token'];
+                        common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'verification done',result);    
                     }else{
                         common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Verification failed');        
                     }
@@ -92,17 +115,6 @@ router.post(symbols.POST_CREATE, function (req, res){
             });
         }else{
             common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Not verified');    
-        }
-    });
-});
-
-router.post(symbols.POST_LOGIN, function (req, res){
-
-    customerModel.login(function(status,remember_token){
-        if(status){
-            common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, '', {"remember_token":remember_token});    
-        }else{
-            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Login failed');    
         }
     });
 });

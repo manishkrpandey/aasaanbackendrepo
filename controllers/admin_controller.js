@@ -12,12 +12,42 @@ const msg91 = require("msg91")("314351AuGVGmoEJ5e27efceP1", 611332, 1 );
 const router = express.Router();
 
 router.post(symbols.POST_LOGIN, function (req, res){
+    common.generateOtp(function(otp){
+        adminModel.saveOtp(otp,function(status){
+            if(status){
+                common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp');    
+            }else{
+                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
+            }
+        });
+    });
+   
+});
 
-    adminModel.login(function(status,remember_token){
+
+router.post(symbols.POST_VERIFY_OTP, function (req, res){
+
+    var otpFromUser = symbols.REQUEST_DATA['otp'];
+    validation.verifyOtp(symbols.FLAG_ADMIN, function(status,result){
         if(status){
-            common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, '', {"remember_token":remember_token});
+            let otpFromTable = result[0].otp;
+            if(otpFromUser == otpFromTable){
+                symbols.REQUEST_DATA['remember_token'] = "new_token";//???code to generate
+                symbols.REQUEST_DATA['id'] = result[0].id;
+                adminModel.adminUpdate(function(status){
+                    if(status){
+                        result['remember_token'] = symbols.REQUEST_DATA['remember_token'];
+                        common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'verification done',result);    
+                    }else{
+                        common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Verification failed');        
+                    }
+                });
+            }else{
+                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'OTP does not matched');        
+            }
+            
         }else{
-            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Login failed');
+            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Not resgistered');    
         }
     });
 });

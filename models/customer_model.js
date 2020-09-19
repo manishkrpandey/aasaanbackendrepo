@@ -26,28 +26,28 @@ module.exports.customerCreate = function(callback) {
         });
 }
 
-module.exports.login = function(callback) {
-    data = symbols.REQUEST_DATA;
-    var sql = "select * from " + symbols.TABLE_CUSTOMERS + " where mobile_number = '" + data['mobile_number'] + "' and "+
-                " password = '" + data['password'] +"' and is_deleted = false and is_verified = true and is_active = true;";
-    dbManager.getData(sql)
-        .then( result => {
-            var remember_token = "new_token";//code to generate
-            dbManager.updateData(symbols.TABLE_CUSTOMERS , {"remember_token":remember_token,"id":result[0].id})
-                .then( success => {
-                    callback(true,remember_token);
-                })
-                .catch(err=>{
-                    console.log(err);
-                    callback(false);
-                    //??? log error
-                });
-        })
-        .catch(err=>{
-            callback(false);
-            //??? log error
-        });
-}
+// module.exports.login = function(callback) {
+//     data = symbols.REQUEST_DATA;
+//     var sql = "select * from " + symbols.TABLE_CUSTOMERS + " where mobile_number = '" + data['mobile_number'] + "' and "+
+//                 " password = '" + data['password'] +"' and is_deleted = false and is_verified = true and is_active = true;";
+//     dbManager.getData(sql)
+//         .then( result => {
+//             var remember_token = "new_token";//code to generate
+//             dbManager.updateData(symbols.TABLE_CUSTOMERS , {"remember_token":remember_token,"id":result[0].id})
+//                 .then( success => {
+//                     callback(true,remember_token);
+//                 })
+//                 .catch(err=>{
+//                     console.log(err);
+//                     callback(false);
+//                     //??? log error
+//                 });
+//         })
+//         .catch(err=>{
+//             callback(false);
+//             //??? log error
+//         });
+// }
 
 module.exports.customerRetrieve = function(accessFlag = symbols.FLAG_CUSTOMER ,callback) {
     data = symbols.REQUEST_DATA;
