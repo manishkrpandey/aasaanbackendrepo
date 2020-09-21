@@ -136,7 +136,17 @@ module.exports.customerAddressDelete = function(callback) {
 module.exports.saveOtp = function(otp, callback) {
     data = symbols.REQUEST_DATA;
     data['otp'] = otp;
-    dbManager.updateData(symbols.TABLE_CUSTOMERS, data)
+    dbManager.getData('',symbols.TABLE_CUSTOMERS)
+        .then(resultGet => {
+            if(resultGet[0].id > 0)
+            {
+                return true;
+            }
+            throw new Error("Record Not Found!");
+        })
+        .then(okay =>{
+            return dbManager.updateData(symbols.TABLE_CUSTOMERS, data);
+        })
         .then( result => {
             callback(true);
         })

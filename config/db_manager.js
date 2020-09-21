@@ -122,7 +122,7 @@ const TableWhereKey = {
     [symbols.TABLE_EMPLOYEE_DOCUMENTS]:['employee_id','id','is_verified'],
     [symbols.TABLE_EMPLOYEE_BLACK_LISTS]:['employee_id','id'],
     [symbols.TABLE_EMPLOYEE_ADDRESS]:['employee_id','id','is_verified'],
-    [symbols.TABLE_ADMIN]:['user_name','id'],
+    [symbols.TABLE_ADMIN]:['user_name','id','mobile_number'],
     [symbols.TABLE_RESTAURANT_TYPES]:['id'],
     [symbols.TABLE_RESTAURANT_MEAL_TYPES]:['id'],
     [symbols.TABLE_RESTAURANTS]:['mobile_number','email_id','id','agent_id','rest_code'],

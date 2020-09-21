@@ -350,7 +350,17 @@ function filterRestaurants(restaurants){
 module.exports.saveOtp = function(otp, callback) {
     data = symbols.REQUEST_DATA;
     data['otp'] = otp;
-    dbManager.updateData(symbols.TABLE_RESTAURANTS, data)
+    dbManager.getData('',symbols.TABLE_RESTAURANTS)
+        .then(resultGet => {
+            if(resultGet[0].id > 0)
+            {
+                return true;
+            }
+            throw new Error("Record Not Found!");
+        })
+        .then(okay =>{
+            return dbManager.updateData(symbols.TABLE_RESTAURANTS, data);
+        })
         .then( result => {
             callback(true);
         })
