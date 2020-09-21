@@ -292,8 +292,7 @@ const JSON_COMMANDS = {
             "description": "Admin Login",
             "path": module.exports.API_ADMIN + module.exports.POST_LOGIN,
             "params": {
-                "user_name":"azhar",
-                "password":"azhar"
+                "mobile_number":"9898",
             }
         },
         {
@@ -366,7 +365,7 @@ const JSON_COMMANDS = {
             }
         },
         {
-            "description": "Check is employee registered",
+            "description": "Employee Login",
             "path": module.exports.API_EMPLOYEE + module.exports.POST_LOGIN,
             "params": {
                 "mobile_number":"9811035342",
@@ -404,9 +403,18 @@ const JSON_COMMANDS = {
             "description": "Employee Login",
             "path": module.exports.API_EMPLOYEE + module.exports.POST_LOGIN,
             "params": {
-                "mobile_number":"9811035342", 
-                "password":"abcd"   
+                "mobile_number":"9811035342",
+                "employee_type_id":"1"
            }
+        },
+        {
+            "description": "Verify OTP",
+            "path": module.exports.API_EMPLOYEE + module.exports.POST_VERIFY_OTP,
+            "params": {
+                "mobile_number":"9811035342",
+                "employee_type_id":"1",
+                "otp":"1234"
+            }
         },
         {
             "description": "Employee Update",
@@ -541,6 +549,21 @@ const JSON_COMMANDS = {
             }
         },
         {
+            "description": "Restaurant Login",
+            "path": module.exports.API_RESTAURANT + module.exports.POST_LOGIN,
+            "params": {
+                "mobile_number":"9898",
+            }
+        },
+        {
+            "description": "Verify OTP",
+            "path": module.exports.API_RESTAURANT + module.exports.POST_VERIFY_OTP,
+            "params": {
+                "mobile_number":"9811035342",
+                "otp":"1234"
+            }
+        },
+        {
             "description": "Restaurant Update",
             "path": module.exports.API_RESTAURANT + module.exports.POST_UPDATE,
             "params": {
@@ -629,8 +652,15 @@ const JSON_COMMANDS = {
             "description": "Customer Login",
             "path": module.exports.API_CUSTOMER + module.exports.POST_LOGIN,
             "params": {
-                "mobile_number":"9811035342", 
-                "password":"abcd",
+                "mobile_number":"9811035342"
+            }
+        },
+        {
+            "description": "Verify OTP",
+            "path": module.exports.API_CUSTOMER + module.exports.POST_VERIFY_OTP,
+            "params": {
+                "mobile_number":"9811035342",
+                "otp":"1234"
             }
         },
         {

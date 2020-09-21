@@ -12,14 +12,19 @@ const msg91 = require("msg91")("314351AuGVGmoEJ5e27efceP1", 611332, 1 );
 const router = express.Router();
 
 router.post(symbols.POST_LOGIN, function (req, res){
-    common.generateOtp(function(otp){
-        adminModel.saveOtp(otp,function(status){
-            if(status){
-                common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp');    
-            }else{
-                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
-            }
-        });
+    common.generateOtp(function(success, otp){
+        if(success){
+            adminModel.saveOtp(otp,function(status){
+                if(status){
+                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp',{"otp":otp});    
+                }else{
+                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
+                }
+            });
+
+        }else{
+            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'OTP generation failed');                
+        }
     });
    
 });
@@ -34,6 +39,8 @@ router.post(symbols.POST_VERIFY_OTP, function (req, res){
             if(otpFromUser == otpFromTable){
                 symbols.REQUEST_DATA['remember_token'] = "new_token";//???code to generate
                 symbols.REQUEST_DATA['id'] = result[0].id;
+                symbols.REQUEST_DATA['otp'] = 0;
+                console.log( symbols.REQUEST_DATA);
                 adminModel.adminUpdate(function(status){
                     if(status){
                         result['remember_token'] = symbols.REQUEST_DATA['remember_token'];
@@ -72,9 +79,7 @@ router.post(symbols.POST_REGISTER_EMPLOYEE, function (req, res){
                         {
                             employeeModel.saveOtp(otp,function(status){
                                 if(status){
-                                    let data = {};
-                                    data["id"] = insertId;
-                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp',{...data,"otp":otp});
+                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp',{"otp":otp});
                                 }else{
                                     common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');
                                 }
@@ -82,7 +87,7 @@ router.post(symbols.POST_REGISTER_EMPLOYEE, function (req, res){
                         }
                         else
                         {
-                            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registratin failed, ' + otp);
+                            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registratin failed, OTP not generated ');
                         }
                     });
                 }else{

@@ -9,11 +9,12 @@ module.exports.getAdminData = function(admin_id,password,callback) {
 }
 
 module.exports.adminUpdate = function(callback) {
-    dbManager.updateData(data)
+    dbManager.updateData(symbols.TABLE_ADMIN,symbols.REQUEST_DATA)
         .then( success => {
-            callback(true,remember_token);
+            callback(true);
         })
         .catch(err=>{
+            console.log(err);
             callback(false);
             //??? log error
         });

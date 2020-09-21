@@ -264,7 +264,7 @@ module.exports.updateData = function(tblName, data, whereInTrue = false){
             }
         )
         .catch(err=>{
-            
+            console.log(err);
             reject(false);
             //??? log error
         });

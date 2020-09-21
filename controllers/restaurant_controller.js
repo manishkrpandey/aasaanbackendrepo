@@ -27,14 +27,19 @@ router.post(symbols.POST_CREATE, function (req, res){
 
 router.post(symbols.POST_LOGIN, function (req, res){
     
-    common.generateOtp(function(otp){
-        restaurantModel.saveOtp(otp,function(status){
-            if(status){
-                common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp');    
-            }else{
-                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
-            }
-        });
+    common.generateOtp(function(success, otp){
+        if(success){
+            restaurantModel.saveOtp(otp,function(status){
+                if(status){
+                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp',{"otp":otp});    
+                }else{
+                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
+                }
+            });
+
+        }else{
+            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'OTP generation failed');
+        }
     });
 });
 

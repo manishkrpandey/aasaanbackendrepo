@@ -36,14 +36,19 @@ router.post(symbols.POST_REGISTER, function (req, res){
         }else{
             customerModel.registerCustomer(function(status){
                 if(status){
-                    common.generateOtp(function(otp){
-                        customerModel.saveOtp(otp,function(status){
-                            if(status){
-                                common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp');    
-                            }else{
-                                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
-                            }
-                        });
+                    common.generateOtp(function(success, otp){
+                        if(success){
+                            customerModel.saveOtp(otp,function(status){
+                                if(status){
+                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp',{"otp":otp});    
+                                }else{
+                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
+                                }
+                            });
+                
+                        }else{
+                            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'OTP generation failed');
+                        }
                     });
                 }else{
                     common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registratin failed');                
@@ -56,14 +61,19 @@ router.post(symbols.POST_REGISTER, function (req, res){
 
 router.post(symbols.POST_LOGIN, function (req, res){
 
-    common.generateOtp(function(otp){
-        customerModel.saveOtp(otp,function(status){
-            if(status){
-                common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp');    
-            }else{
-                common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
-            }
-        });
+    common.generateOtp(function(success, otp){
+        if(success){
+            customerModel.saveOtp(otp,function(status){
+                if(status){
+                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp',{"otp":otp});    
+                }else{
+                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
+                }
+            });
+
+        }else{
+            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'OTP generation failed');
+        }
     });
     // customerModel.login(function(status,remember_token){
     //     if(status){
