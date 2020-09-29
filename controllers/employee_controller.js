@@ -68,7 +68,23 @@ router.post(symbols.POST_CREATE, function (req, res){
         if(status){
             employeeModel.employeeCreate(function(insertId){
                 if(insertId > 0){
-                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Signup successfull!', {"id":insertId});    
+                    common.generateOtp(function(success, otp){
+                        if(success)
+                        {
+                            employeeModel.saveOtp(otp,function(status){
+                                if(status){
+                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Signup successfull!, Check otp',{"otp":otp});    
+                                }else{
+                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
+                                }
+                            });
+        
+                        }
+                        else
+                        {
+                            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Not resgistered,' + otp);   
+                        }
+                    });
                 }else{
                     common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Already registered or try after sometimes');    
                 }

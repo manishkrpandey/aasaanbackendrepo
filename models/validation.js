@@ -132,7 +132,7 @@ module.exports.verifyOtp = function(accessFlag = symbols.FLAG_AGENT, callback) {
     if(accessFlag == symbols.FLAG_EMPLOYEE){
         //var sql = "SELECT * FROM "+ symbols.TABLE_EMPLOYEE_REGISTER+" WHERE mobile_number = '"+ data['mobile_number'] + "' AND employee_type_id = '"+ data['employee_type_id'] + "' AND updated_on  > (NOW() - INTERVAL 10 MINUTE)";
         //??? uncomment above line with time check
-        var sql = "SELECT * FROM "+ symbols.TABLE_EMPLOYEE_REGISTER+" WHERE mobile_number = '"+ data['mobile_number'] + "' AND employee_type_id = '"+ data['employee_type_id'] + "'";
+        var sql = "SELECT * FROM "+ symbols.TABLE_EMPLOYEES+" WHERE mobile_number = '"+ data['mobile_number'] + "' AND employee_type_id = '"+ data['employee_type_id'] + "'";
     }else if(accessFlag == symbols.FLAG_CUSTOMER){
         var sql = "SELECT * FROM "+ symbols.TABLE_CUSTOMERS+" WHERE mobile_number = '"+ data['mobile_number'] + "'";
     } 
@@ -142,6 +142,7 @@ module.exports.verifyOtp = function(accessFlag = symbols.FLAG_AGENT, callback) {
     else if(accessFlag == symbols.FLAG_ADMIN){
         var sql = "SELECT * FROM "+ symbols.TABLE_ADMIN+" WHERE mobile_number = '"+ data['mobile_number'] + "'";
     } 
+    console.log(sql);
     dbManager.getData(sql)
         .then( result => {
             callback(true,result);

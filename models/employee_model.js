@@ -289,6 +289,7 @@ module.exports.saveOtp = function(otp, callback) {
     data['otp'] = otp;
     dbManager.getData('',symbols.TABLE_EMPLOYEES)
         .then(resultGet => {
+            console.log(resultGet);
             if(resultGet[0].id > 0)
             {
                 return true;
@@ -302,6 +303,7 @@ module.exports.saveOtp = function(otp, callback) {
             callback(true);
         })
         .catch(err=>{
+            console.log(err);
             callback(false);
             //??? log error
         });

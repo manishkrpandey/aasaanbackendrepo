@@ -74,22 +74,7 @@ router.post(symbols.POST_REGISTER_EMPLOYEE, function (req, res){
         case symbols.COMMAND_INSERT:
             adminModel.employeeRegister(function(insertId){
                 if(insertId > 0){
-                    common.generateOtp(function(success, otp){
-                        if(success)
-                        {
-                            employeeModel.saveOtp(otp,function(status){
-                                if(status){
-                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Check otp',{"otp":otp});
-                                }else{
-                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');
-                                }
-                            });
-                        }
-                        else
-                        {
-                            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registratin failed, OTP not generated ');
-                        }
-                    });
+                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Registered');
                 }else{
                     common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Registration failed');
                 }
