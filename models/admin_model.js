@@ -21,7 +21,7 @@ module.exports.adminUpdate = function(callback) {
 }
 
 module.exports.employeeRegister = function(callback) {
-    dbManager.insertData(symbols.TABLE_EMPLOYEE_REGISTER)
+    dbManager.insertData(symbols.TABLE_EMPLOYEES)
         .then( insertId => {
             callback(insertId);
         })

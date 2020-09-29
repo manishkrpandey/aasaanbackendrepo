@@ -301,8 +301,10 @@ const JSON_COMMANDS = {
             "params": {
                 "command":"insert",
                 "remember_token":"new_token",
-                "mobile_number": "981103",
+                 "mobile_number": "981104",
                 "employee_type_id": "1",
+                "employee_job_type_id": "1",
+                "employee_slot_id":"1",
                 "emplyee_name":"jamwant yadav",
                 "email_id":"jamwant@gmail.com"
             }
@@ -381,24 +383,24 @@ const JSON_COMMANDS = {
                 "otp":"1234"
             }
         },
-        {
-            "description": "Employee Create - Signup",
-            "path": module.exports.API_EMPLOYEE + module.exports.POST_CREATE,
-            "params": {
-                "country_code":"91", 
-                "mobile_number":"9811035342", 
-                "alternate_mobile_number":"", 
-                "email_id":"afzal@gmail.com", 
-                "first_name":"sayed", 
-                "middle_name":"", 
-                "last_name":"sabri", 
-                "father_name":"father", 
-                "password":"abcd",   
-                "employee_type_id":"1", 
-                "employee_job_type_id":"1", 
-                "employee_slot_id":"1"
-            }
-        },
+        // {
+        //     "description": "Employee Create - Signup",
+        //     "path": module.exports.API_EMPLOYEE + module.exports.POST_CREATE,
+        //     "params": {
+        //         "country_code":"91", 
+        //         "mobile_number":"9811035342", 
+        //         "alternate_mobile_number":"", 
+        //         "email_id":"afzal@gmail.com", 
+        //         "first_name":"sayed", 
+        //         "middle_name":"", 
+        //         "last_name":"sabri", 
+        //         "father_name":"father", 
+        //         "password":"abcd",   
+        //         "employee_type_id":"1", 
+        //         "employee_job_type_id":"1", 
+        //         "employee_slot_id":"1"
+        //     }
+        // },
         {
             "description": "Employee Login",
             "path": module.exports.API_EMPLOYEE + module.exports.POST_LOGIN,

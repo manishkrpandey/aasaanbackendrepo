@@ -10,8 +10,6 @@ const router = express.Router();
 
 router.post(symbols.POST_LOGIN, function (req, res){
 log.isInfo(req);
-    validation.isRegisteredEmployee(function(status){
-        if(status){
             common.generateOtp(function(success, otp){
                 if(success)
                 {
@@ -29,10 +27,6 @@ log.isInfo(req);
                     common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Not resgistered,' + otp);   
                 }
             });
-        }else{
-            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Not resgistered');    
-        }
-    });
 });
 
 router.post(symbols.POST_VERIFY_OTP, function (req, res){
@@ -62,38 +56,32 @@ router.post(symbols.POST_VERIFY_OTP, function (req, res){
     });
 });
 
-router.post(symbols.POST_CREATE, function (req, res){
+// router.post(symbols.POST_CREATE, function (req, res){
 
-    validation.isRegisteredEmployee(function(status){
-        if(status){
-            employeeModel.employeeCreate(function(insertId){
-                if(insertId > 0){
-                    common.generateOtp(function(success, otp){
-                        if(success)
-                        {
-                            employeeModel.saveOtp(otp,function(status){
-                                if(status){
-                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Signup successfull!, Check otp',{"otp":otp});    
-                                }else{
-                                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
-                                }
-                            });
+//             employeeModel.employeeCreate(function(insertId){
+//                 if(insertId > 0){
+//                     common.generateOtp(function(success, otp){
+//                         if(success)
+//                         {
+//                             employeeModel.saveOtp(otp,function(status){
+//                                 if(status){
+//                                     common.sendResponse(res, symbols.CONSTANT_RESPONSE_SUCCESS, 'Signup successfull!, Check otp',{"otp":otp});    
+//                                 }else{
+//                                     common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Try again');                
+//                                 }
+//                             });
         
-                        }
-                        else
-                        {
-                            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Not resgistered,' + otp);   
-                        }
-                    });
-                }else{
-                    common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Already registered or try after sometimes');    
-                }
-            });
-        }else{
-            common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Not resgistered');    
-        }
-    });
-});
+//                         }
+//                         else
+//                         {
+//                             common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Not resgistered,' + otp);   
+//                         }
+//                     });
+//                 }else{
+//                     common.sendResponse(res, symbols.CONSTANT_RESPONSE_ERROR, 'Already registered or try after sometimes');    
+//                 }
+//             });
+// });
 
 router.get(symbols.GET_RETRIEVE, function (req, res){
 

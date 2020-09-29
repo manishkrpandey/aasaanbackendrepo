@@ -87,18 +87,18 @@ module.exports.isCustomer = function(callback) {
     }
 }
 
-module.exports.isRegisteredEmployee = function(callback) {
-    data = symbols.REQUEST_DATA;
-    var sql = "SELECT * FROM "+ symbols.TABLE_EMPLOYEE_REGISTER+" WHERE mobile_number = '"+ data['mobile_number'] + "' AND employee_type_id = '"+ data['employee_type_id'] + "'";
-    dbManager.getData(sql)
-        .then( result => {
-            callback(true,result);
-        })
-        .catch(err=>{
-            callback(false);
-            //??? log error
-        });
-}
+// module.exports.isRegisteredEmployee = function(callback) {
+//     data = symbols.REQUEST_DATA;
+//     var sql = "SELECT * FROM "+ symbols.TABLE_EMPLOYEE_REGISTER+" WHERE mobile_number = '"+ data['mobile_number'] + "' AND employee_type_id = '"+ data['employee_type_id'] + "'";
+//     dbManager.getData(sql)
+//         .then( result => {
+//             callback(true,result);
+//         })
+//         .catch(err=>{
+//             callback(false);
+//             //??? log error
+//         });
+// }
 
 module.exports.isVerifiedCustomer = function(callback) {
     data = symbols.REQUEST_DATA;
